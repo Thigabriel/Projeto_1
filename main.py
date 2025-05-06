@@ -9,7 +9,7 @@ api_key = "01ad5794da6140bfb00162541240210"
 cidade = "São Paulo"
 altitude = 760
 
-# 1. Obter dados da WeatherAPI
+# 1. Dados da API
 dados_api = ETo.obter_dados_weatherapi(cidade, api_key)
 previsoes = dados_api['forecast']['forecastday']
 
@@ -24,7 +24,7 @@ rn = [dia['day']['daily_will_it_rain'] *
 g = [0 for _ in previsoes]
 precip = [dia['day']['totalprecip_mm'] for dia in previsoes]
 
-# 3. Calcular ETo para cada dia
+# 3. Calculo ETo 
 eto = []
 for i in range(3):
     eto.append(ETo.calcular_eto(
@@ -33,7 +33,7 @@ for i in range(3):
 
 # print(eto[0], eto[1], eto[2])
 
-# 4. Montar dicionário de ETo para facilitar uso posterior
+# 4. Dict ETo e dados meteorológicos
 eto_dict = {
     'ReferenceET_dia1': eto[0],
     'ReferenceET_dia2': eto[1],
@@ -96,6 +96,7 @@ etos = [eto_dict['ReferenceET_dia1'],
 
 estresses_hidricos = Estresse.calcular_estresse_hidrico(umidades_solo, etos)
 estresses_hidricos = [float(e) for e in estresses_hidricos]
+
 #print("Estresse hídrico:", estresses_hidricos)
 
 # 7. Prever irrigação diária
