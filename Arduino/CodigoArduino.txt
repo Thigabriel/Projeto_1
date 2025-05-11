@@ -1,0 +1,54 @@
+// Pino onde está conectado o relé
+const uint8_t RELE_PIN = 8;
+
+void setup() {
+  // Configura pino do relé como saída e garante que comece desligado
+  pinMode(RELE_PIN, OUTPUT);
+  digitalWrite(RELE_PIN, LOW);
+
+  // Inicializa serial a 9600 baud
+  Serial.begin(9600);
+  // Se você usar Leonardo/Micro, pode esperar a serial abrir:
+  // while (!Serial) { ; }
+}
+
+void loop() {
+  // Se houver dados disponíveis na porta serial...
+  if (Serial.available()) {
+    // Lê até o caractere de nova linha
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();  // remove espaços em branco no início/fim
+
+    // Verifica se começa com "ON"
+    if (cmd.startsWith("ON")) {
+      int sep = cmd.indexOf(' ');
+      if (sep > 0) {
+        // Extrai a parte numérica após o espaço
+        int duracaoSeg = cmd.substring(sep + 1).toInt();
+
+        // Debug: avisa no monitor serial
+        Serial.print("Acionando relé por ");
+        Serial.print(duracaoSeg);
+        Serial.println(" s");
+
+        // Liga o relé
+        digitalWrite(RELE_PIN, HIGH);
+        // Mantém ligado pelo tempo solicitado
+        delay(duracaoSeg * 1000UL);
+        // Desliga o relé
+        digitalWrite(RELE_PIN, LOW);
+
+        // Envia confirmação para o computador
+        Serial.println("OK");
+      }
+      else {
+        Serial.println("ERRO: formato inválido");
+      }
+    }
+    // (Opcional) trate outros comandos, por ex. OFF imediato:
+    // else if (cmd == "OFF") {
+    //   digitalWrite(RELE_PIN, LOW);
+    //   Serial.println("OK");
+    // }
+  }
+}

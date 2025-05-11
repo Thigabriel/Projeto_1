@@ -3,8 +3,6 @@ import pandas as pd
 import Pacotes.Calculos.ETo as ETo
 import Pacotes.Calculos as Calculos
 import Pacotes.Calculos.Estresse as Estresse
-import Sensores.Umidade_Solo as Umidade_Solo
-import Atuadores.Ligarbomba as Atuador
 
 # Parâmetros para a API
 api_key = "01ad5794da6140bfb00162541240210"
@@ -48,10 +46,7 @@ dados_meteorologicos = {
     'MaxTemp_dia1': tmax[0], 'MaxTemp_dia2': tmax[1], 'MaxTemp_dia3': tmax[2],
     'Precipitation_dia1': precip[0], 'Precipitation_dia2': precip[1], 'Precipitation_dia3': precip[2]
 }
-umidade_atual = Umidade_Solo.ler_umidade_solo()# Exemplo: retorna float, valor lido do sensor
-
-dados_solo = {'th1_dia1': umidade_atual}
-
+dados_solo = {'th1_dia1': 22}
 
 #print("Dados meteorológicos:", dados_meteorologicos)
 
@@ -118,19 +113,3 @@ previsao_irrigacao = PrevisaoIrrigacao(entrada_irrigacao)
 print("Previsão de umidade do solo:", previsao_umidade)
 print("Estresse hídrico:", estresses_hidricos)
 print("Previsão de irrigação(hoje):", previsao_irrigacao)
-
-
-
-# 8. Acionar bomba de irrigação com a previsão da IA
-area_m2 = 1  # Defina a área real da sua plantação
-vazao_bomba_lph = 1200  # Defina a vazão real da sua bomba em L/h
-porta_serial = 'COM5'  # Porta do Arduino
-
-quantidade_agua_mm = float(previsao_irrigacao[0])  # Previsão da IA para o dia
-
-Atuador.acionar_bomba_irrigacao(
-    quantidade_agua_mm=quantidade_agua_mm,
-    area_m2=area_m2,
-    vazao_bomba_lph=vazao_bomba_lph,
-    porta_serial=porta_serial
-)
