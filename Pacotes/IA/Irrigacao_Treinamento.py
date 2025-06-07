@@ -49,22 +49,6 @@ print(f'MAE: {mae:.3f} mm')
 print(f'MSE: {mse:.3f} mm²')
 print(f'R²: {r2:.3f}')
 
-# Exemplo de previsão com dados fornecidos
-
-exemplo_entrada = [[
-    26.9,                          # th1_dia1 (umidade atual do solo)
-    0.20308303323676216,           # th1_dia2 (previsão IA)
-    0.18596157641862088,           # th1_dia3 (previsão IA)
-    14.7, 14.5, 14.3,              # MinTemp_dia1, MinTemp_dia2, MinTemp_dia3
-    16.9, 19.6, 22.1,              # MaxTemp_dia1, MaxTemp_dia2, MaxTemp_dia3
-    # Precipitation_dia1, Precipitation_dia2, Precipitation_dia3
-    1.46, 0.16, 0.19,
-    1.44, 1.69, 1.82               # ReferenceET_dia1, ReferenceET_dia2, ReferenceET_dia3
-]]
-
-modelo_carregado = joblib.load('modelo_irrigacao_treinado.joblib')
 
 
-exemplo_entrada_df = pd.DataFrame(exemplo_entrada, columns=features)
-previsao = modelo_carregado.predict(exemplo_entrada_df)
-print(f'Previsão de irrigação (mm) para o exemplo: {previsao[0]:.2f}')
+

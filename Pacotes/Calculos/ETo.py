@@ -56,11 +56,4 @@ api_key = "01ad5794da6140bfb00162541240210"
 cidade = "São Paulo"
 
 
-# resultados = calcular_agua_estimada(api_key, cidade, kc, area, altitude)
 
-'''for resultado in resultados:
-    print(f"Data: {resultado['data']}")
-    print(f"ETo: {resultado['eto']:.2f} mm/dia")
-    print(f"ETc: {resultado['etc']:.2f} mm/dia")
-    print(f"Volume de água estimada: {resultado['volume_agua']:.2f} litros")
-    print("-" * 30)'''

@@ -77,8 +77,7 @@ if not all(val in [0, 1] for val in valores_unicos_target):
         f"Atenção: A coluna target '{novo_target_classificador}' deveria conter apenas valores 0 e 1.")
     # Isso não deve acontecer com a lógica np.where, mas é uma verificação extra.
 
-# Dividir os dados em conjuntos de treinamento e teste
-# stratify=y é útil se as classes (0 e 1) estiverem desbalanceadas
+
 try:
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y)

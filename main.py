@@ -36,15 +36,9 @@ def ler_umidade_solo(
     canal=0, min_valor=200, max_valor=900, inverter=True,
     default=0.0
 ):
-    """
-    Lê umidade do solo via Arduino.
-    Envia comando "R 0\n" e retorna valor normalizado em %
-    Retorna `default` em caso de falha.
-    """
+   
     try:
-        # No Windows, a porta pode ser algo como 'COM3', 'COM4', etc.
-        # No Linux, geralmente '/dev/ttyACM0' ou '/dev/ttyUSB0'
-        # Ajuste 'porta' conforme necessário ou passe como argumento.
+        
         with serial.Serial(porta, baud, timeout=timeout) as ser:
             time.sleep(2)  # Tempo para a conexão serial estabilizar
             ser.reset_input_buffer()  # Limpa buffer de entrada
@@ -146,7 +140,7 @@ def obter_dados_weatherapi(cidade, chave_api):
         f"?key={chave_api}&q={cidade}&days=3&aqi=no&alerts=no"
     )
     try:
-        resp = requests.get(url, timeout=10)  # Timeout aumentado para 10s
+        resp = requests.get(url, timeout=10) 
         resp.raise_for_status()  # Levanta um erro para códigos HTTP 4xx/5xx
         return resp.json()
     except requests.exceptions.RequestException as e:
@@ -155,8 +149,7 @@ def obter_dados_weatherapi(cidade, chave_api):
 
 
 def calcular_eto(tmax, tmin, rh_max, rh_min, u10, rn, g, z):
-    # Garante que rh_min não seja menor que 0 ou maior que rh_max
-    # -1 para garantir que rh_min < rh_max
+
     rh_min_ajustado = max(0, min(rh_min, rh_max - 1))
 
     u2 = u10 * (4.87 / math.log(67.8 * 10 - 5.42))
@@ -188,9 +181,6 @@ def calcular_estresse_hidrico(umidades, etos, ponto_alerta=15.0, coef_tol=1.0):
     for umidade_percentual, eto_diario in zip(umidades, etos):
         # umidade_percentual já deve estar em % (e não fração 0-1)
         if umidade_percentual <= ponto_alerta:
-            # O cálculo original (eto/10) pode precisar de revisão dependendo da unidade de 'u'
-            # Se 'u' é %, e ponto_alerta é %, a diferença é em %
-            # Multiplicar por (eto/10) parece um fator empírico.
             estresse = max(0, (ponto_alerta - umidade_percentual)
                            * coef_tol * (eto_diario / 10.0))
         else:
@@ -305,7 +295,7 @@ if __name__ == "__main__":
 
     # Parâmetros do sistema
     API_KEY   = "01ad5794da6140bfb00162541240210" # Sua chave da WeatherAPI
-    CIDADE    = "Sao Paulo" # Cidade para previsão
+    CIDADE    = "Imperatriz"# Cidade para previsão
     ALTITUDE  = 760         # Altitude local em metros
     AREA_M2   = 1           # Área da plantação em m²
     VAZAO_LPH = 1200        # Vazão da bomba em Litros por Hora

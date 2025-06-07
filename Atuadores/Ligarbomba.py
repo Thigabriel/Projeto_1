@@ -7,16 +7,7 @@ def acionar_bomba_irrigacao(quantidade_agua_mm,
                             vazao_bomba_lph,
                             porta_serial='/dev/ttyACM0',
                             baudrate=9600):
-    """
-    Aciona a bomba via Arduino conectado na porta USB do Raspberry Pi.
-
-    Parâmetros:
-    - quantidade_agua_mm: lâmina d'água em mm
-    - area_m2: área a irrigar em m²
-    - vazao_bomba_lph: vazão em L/h
-    - porta_serial: '/dev/ttyACM0' por padrão no Raspberry Pi
-    - baudrate: padrão 9600
-    """
+   
     # 1 mm = 1 L/m²
     litros = quantidade_agua_mm * area_m2
 
