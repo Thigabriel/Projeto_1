@@ -1,0 +1,46 @@
+import socket
+import time
+
+# --- CONFIGURAÇÕES ---
+# Endereço MAC do seu módulo HC-05
+BD_ADDR = "98:DA:50:03:18:40" 
+PORTA = 1 # O canal da porta serial Bluetooth, geralmente é 1
+# --------------------
+
+# Cria um socket Bluetooth
+sock = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+
+print(f"Tentando conectar ao endereço {BD_ADDR} no canal {PORTA}...")
+
+try:
+    # Tenta se conectar ao endereço do Arduino
+    sock.connect((BD_ADDR, PORTA))
+    print(">>> SUCESSO! Conexão Bluetooth estabelecida diretamente! <<<")
+    
+    # Define um timeout para as leituras
+    sock.settimeout(5.0)
+
+    # --- TESTE DE COMUNICAÇÃO ---
+    mensagem = "Ola Arduino!"
+    print(f"\nEnviando: '{mensagem}'")
+    
+    # Envia a mensagem
+    sock.send(mensagem.encode('utf-8'))
+    
+    # Tenta ler o eco de volta
+    resposta = sock.recv(1024)
+    
+    print(f"Resposta recebida: '{resposta.decode('utf-8')}'")
+    
+    if resposta.decode('utf-8') == mensagem:
+        print("\n>>> SUCESSO TOTAL! Comunicação de ida e volta funcionando! <<<")
+    else:
+        print("\n>>> FALHA! A resposta do eco não correspondeu. <<<")
+
+except Exception as e:
+    print(f"\nERRO DURANTE A COMUNICAÇÃO: {e}")
+
+finally:
+    # Fecha a conexão
+    print("\nFechando a conexão.")
+    sock.close()

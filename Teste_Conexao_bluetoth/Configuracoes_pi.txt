@@ -1,0 +1,10 @@
+
+# Garantir que o Bluetooth não está bloqueado:
+    sudo rfkill unblock bluetooth
+
+# Entrar na ferramenta de controle Bluetooth
+    sudo bluetoothctl
+
+    pair 98:DA:50:03:18:40
+    
+    trust 98:DA:50:03:18:40

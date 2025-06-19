@@ -1,0 +1,18 @@
+/*
+  Código de Teste Final - Eco Bluetooth
+  Recebe dados via Bluetooth (pela porta Serial) e os envia de volta.
+*/
+void setup() {
+  // Inicia a comunicação serial na velocidade padrão do HC-05 para dados.
+  Serial.begin(9600); 
+}
+
+void loop() {
+  // Se houver algum dado disponível para leitura...
+  if (Serial.available()) {
+    // ...lê o caractere que chegou...
+    char caractereRecebido = Serial.read();
+    // ...e envia o mesmo caractere de volta.
+    Serial.print(caractereRecebido);
+  }
+}
