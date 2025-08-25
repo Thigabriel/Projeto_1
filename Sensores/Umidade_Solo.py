@@ -8,23 +8,12 @@ def ler_umidade_solo(porta_serial='/dev/ttyACM0',
                      min_valor=200,
                      max_valor=900,
                      inverter=True):
-    """
-    Lê umidade do solo via Arduino conectado na porta USB.
-
-    Parâmetros opcionais:
-    - porta_serial: ex. '/dev/ttyACM0' (padrão) ou 'COM5'
-    - baudrate: padrão 9600
-    - timeout: tempo de espera pela resposta, em segundos
-    - canal_analogico: 0 para A0, 1 para A1, etc.
-    - min_valor: leitura bruta no solo mais seco
-    - max_valor: leitura bruta no solo mais úmido
-    - inverter: True se o sensor retorna 0=úmido e 1023=seco
-    """
+  
 
     try:
         with serial.Serial(porta_serial, baudrate, timeout=timeout) as arduino:
-            time.sleep(2)  # espera o Arduino reiniciar
-            # envia comando para ler o sensor
+            time.sleep(2)  
+          
             comando = f"R {canal_analogico}\n"
             arduino.write(comando.encode())
             linha = arduino.readline().decode().strip()
